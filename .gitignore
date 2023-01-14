@@ -137,5 +137,8 @@ dmypy.json
 .pytype/
 
 # Cython debug symbols
-files/
-config.py
+cython_debug
+.env
+django
+db
+env.py
