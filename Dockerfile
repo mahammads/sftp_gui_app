@@ -1,7 +1,10 @@
 FROM python:3.8
 
-ADD main.py .
+WORKDIR /usr/app/src
 
-RUN pip install pillow pysftp tkinter
+COPY sftp_module.py ./
+COPY main.py ./
+RUN  pip install --upgrade pip
+RUN pip install pillow pysftp tk
 
 CMD [ "python", "./main.py"]
