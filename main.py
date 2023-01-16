@@ -7,7 +7,7 @@ import logging
 import datetime as dt
 import traceback
 import os
-
+import sys
 
 
 base = Tk()  
@@ -15,7 +15,19 @@ base.geometry("500x400")
 base.title("SFTP")  
 
 # setting icon to frame
-image=Image.open("EXL_Service_logo.png")
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+
+image=Image.open(resource_path("sftp-icon-16.jpg"))
+
 img=image.resize((40, 10))
 exl_img = ImageTk.PhotoImage(img)
 # p1 = PhotoImage(file = "EXL_Service_logo.png",height=40)
@@ -62,6 +74,8 @@ file_entry= Entry(base,width=40)
 file_entry.place(x=180, y=170)  
 
 # ---------------------------all function declaration----------------------------------------------
+
+
 def browse_file():
     global file_name
     file = filedialog.askopenfilename()
@@ -105,7 +119,6 @@ def show():
    ps_entry= Entry(base,width=20)
    ps_entry.place(x=180, y=100)  
    ps_entry.insert(0, p)
-#    Label(base, text= str(p)).place(x=330, y=100)
 
 
 def reset_path():
@@ -137,15 +150,12 @@ def sftp_func(upload=False, download=False, delete=False):
             obj = SftpModule(host_name, user_name, password, int(port))
             if upload:
                 result = obj.upload_sftp(local_file_name =local_file_name, sftp_folder_name=remote_file)
-        
                 Label(base, text=result, width=40,font=("arial",10)).place(x=50, y=370) 
             if download:
                 result = obj.download_sftp(local_file_path =local_file_name, sftp_file_path=remote_file)
-          
                 Label(base, text=result, width=40,font=("arial",10)).place(x=50, y=370) 
             if delete:
                 result = obj.sftp_remove(remote_file)
-     
                 Label(base, text=result, width=40,font=("arial",10)).place(x=50, y=370) 
         else:
             print('please enter the valid credentials')
@@ -153,15 +163,15 @@ def sftp_func(upload=False, download=False, delete=False):
       
     except Exception as err:
         print(err)
-        Label(base, text="The input could not be processed, please check the log", width=50,font=("arial",10)).place(x=50, y=370) 
+        Label(base, text="The input could not be processed, please try again", width=50,font=("arial",10)).place(x=50, y=370) 
 
 # -------------------------------------all button configuration---------------------------------------------
-image=Image.open('reset_2.jpg')
+image=Image.open(resource_path('reset.ico'))
 img=image.resize((15, 15))
 reset_img = ImageTk.PhotoImage(img)
 Button(base, text="",image=reset_img,command=reset_path).place(x=430,y=200)
 
-image=Image.open('pswrd.jpg')
+image=Image.open(resource_path('eye.jpg'))
 img=image.resize((15, 15))
 pw_img = ImageTk.PhotoImage(img)
 Button(base, text="",image=pw_img,command=show).place(x=310,y=100)

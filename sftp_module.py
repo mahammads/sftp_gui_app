@@ -1,6 +1,5 @@
 import pysftp as sftp
 import os 
-from datetime import date
 from pathlib import Path
 import logging
 
@@ -82,7 +81,7 @@ class SftpModule:
                     serv_details.put(local_file_name, remote_file, preserve_mtime=True)
 
                 print(local_file_name,'uploaded successfully')
-                return f'{local_file_name} File uploaded successfully'
+                return "File uploaded successfully"
             else:
                 return 'please provide valid file name'
         except Exception as err:
@@ -119,12 +118,3 @@ class SftpModule:
 
 if __name__ == "__main__":
     pass
-# # download_sftp('data','myfile.zip')
-# FTP_HOST =  '54.236.252.50'
-# FTP_USER = 'mdjuber'
-# FTP_PASS = 'Mjaas@31193'
-# port=22
-# obj = SftpModule(FTP_HOST,FTP_USER,FTP_PASS,port)
-# result = obj.upload_sftp(local_file_name = r"C:\Users\sarwa\Downloads\1672916981-test.xlsx", sftp_folder_name='juber/code')
-# # obj.download_sftp(sftp_file_path = 'output1.log')
-# # result = obj.sftp_get_list()
