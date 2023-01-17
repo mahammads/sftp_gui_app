@@ -105,10 +105,15 @@ class SftpModule:
 
     def sftp_remove(self, file_name):
         try:
-            if self.sftp.isdir(file_name):
-                for item in self.sftp.listdir(file_name):
-                    self.sftp.remove(item) 
-            self.sftp.remove(file_name)
+            serv_details = self.sftp
+            current_dir = serv_details.pwd
+            remote_file_path = current_dir + '/' + file_name
+            if serv_details.isdir(remote_file_path):
+                for item in serv_details.listdir(remote_file_path):
+                    item_path = remote_file_path + '/' + item
+                    serv_details.remove(item_path) 
+            else:
+                serv_details.remove(remote_file_path)
             return 'File removed successfully'
         except Exception as err:
             raise err

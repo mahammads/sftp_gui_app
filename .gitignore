@@ -142,3 +142,4 @@ cython_debug
 django
 db
 env.py
+sftp/
